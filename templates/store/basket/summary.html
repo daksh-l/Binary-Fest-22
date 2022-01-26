@@ -1,0 +1,165 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}Basket Summary{% endblock %}
+{% block content %}
+
+<main class="pt-5" style="margin-bottom: 15%">
+    <div class="container">
+        <h1 class="h5">Shopping basket</h1>
+        {% for item in basket %}
+        {% with product=item.product %}
+        <div data-index="{{product.id}}" class="row mb-4 border product-item">
+            <div class="col-md-3 col-lg-2 order-md-first bg-light">
+                <img class="img-fluid mx-auto d-block mt-3" alt="Product image" src="{{ product.image.url }}">
+            </div>
+            <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
+                <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-reset">
+                    <h1 class="h5 pt-2 mt-2 mb-3">{{ product.title }}</h1>
+                </a>
+                <div class="border">
+                    <div class="col border-bottom">
+                        <div class="row p-3">
+                            <div class="col-6">Added to cart</div>
+                            <div class="col-6 text-end"><span class="h6 fw-bold">₹{{ product.price }}</span></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row p-3">
+                            <div class="col-12">
+                                <label for="select">Qty</label>
+                                <select id="select{{product.id}}">
+                                    <option selected>
+                                        {{item.qty}}
+                                    </option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                    <option value="">4</option>
+                                </select>
+                                <button type="button" id="update-button" data-index="{{product.id}}"
+                                    class="btn btn-outline-secondary btn-sm update-button ">
+                                    Update
+                                </button>
+                                <button type="button" id="delete-button" data-index="{{product.id}}"
+                                    class="btn btn-outline-secondary btn-sm delete-button">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% endfor %}
+        <div class="col-12 text-end">
+            <div class="row">
+                <div class="h6 fw-bold">Sub Total: ₹<div id="subtotal" class="d-inline-flex">{{basket.get_total_price}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <button type="button" class="btn btn-success">Proceed to Order</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- Footer -->
+
+<div class="container-fluid mw-100" style="margin-bottom: 0px;">
+    <footer
+        style="background-color: #deded5; position: absolute; margin-bottom: -150px; margin-top: 15.5%; width=100%; margin-left: 0%; margin-right: 0%;">
+        <div class="container-fluid p-4 mw-100">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;">Thank You!</h5>
+                    <p>
+                        Our restaurant wouldn't be alive without our loving customers. We always strive to provide our
+                        customers
+                        with
+                        a good experience, thanks to our staff! We hope you have a good experience at the Retro Affair!
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-3" style="letter-spacing: 2px; color: #818963;" id="contactus">Contact Us!</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1">
+                            <span style="color: #4f4f4f;">Phone Number: +91 9123412345</span>
+                        </li>
+                        <li class="mb-1">
+                            <span style="color: #4f4f4f;">Email Address: theretroaffair@gmail.com</span>
+                        </li>
+                        <li class="mb-4">
+                            <span style="color: #4f4f4f;">Location: Malvya Road, Green Park, New Delhi</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-1" style="letter-spacing: 2px; color: #818963;">opening hours</h5>
+                    <table class="table" style="color: #4f4f4f; border-color: #666;">
+                        <tbody>
+                            <tr>
+                                <td>Mon - Fri:</td>
+                                <td>8am - 11pm</td>
+                            </tr>
+                            <tr>
+                                <td>Sat - Sun:</td>
+                                <td>8am - 12am</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Delete Item
+    $(document).on('click', '.delete-button', function (e) {
+        e.preventDefault();
+        var prodid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_delete" %}',
+            data: {
+                productid: $(this).data('index'),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+                $('.product-item[data-index="' + prodid + '"]').remove();
+                document.getElementById("subtotal").innerHTML = json.subtotal;
+                document.getElementById("basket-qty").innerHTML = json.qty
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    })
+
+    // Update Item
+    $(document).on('click', '.update-button', function (e) {
+        e.preventDefault();
+        var prodid = $(this).data('index');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "basket:basket_update" %}',
+            data: {
+                productid: $(this).data('index'),
+                productqty: $('#select' + prodid + ' option:selected').text(),
+                csrfmiddlewaretoken: "{{csrf_token}}",
+                action: 'post'
+            },
+            success: function (json) {
+                document.getElementById("basket-qty").innerHTML = json
+                    .qty // edits the quantity after update
+                document.getElementById("subtotal").innerHTML = json
+                    .subtotal // edits the total after update
+            },
+            error: function (xhr, errmsg, err) {}
+        });
+    })
+</script>
+
+{% endblock %}

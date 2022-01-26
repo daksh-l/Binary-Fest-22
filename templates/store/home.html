@@ -1,0 +1,289 @@
+{% extends "./base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+
+<main>
+  <style>
+    .hero-image {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.569), rgba(0, 0, 0, 0.569)),
+      url("{% static '../../../media/images/food1.png' %}");
+      height: 500px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      margin-top: 0 auto;
+    }
+
+    .hero-text {
+      text-align: center;
+      position: relative;
+      font-size: 200%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+
+    #retro_text {
+      font-family: Georgia;
+      color: #FFFFFF;
+      text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, .1), 0 0 5px rgba(0, 0, 0, .1), 0 1px 3px rgba(0, 0, 0, .3), 0 3px 5px rgba(0, 0, 0, .2), 0 5px 10px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .2), 0 20px 20px rgba(0, 0, 0, .15);
+      text-align: center;
+    }
+    /* If the screen size is 601px wide or more, set the font-size of <div> to 80px */
+      @media screen and (min-width: 900px) {
+        p.review-content {
+          margin-top: 15px;
+          font-size: 18px;
+        }
+        p.review-writer {
+          font-size: 15px;
+        }
+      }
+      
+      /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+      @media screen and (max-width: 600px) {
+        p.review-content {
+          margin-top: 20px;
+          font-size: .83em;
+          font-weight: bolder
+        }
+        p.review-writer {
+          margin-top: 0.1em;
+          font-size: .6em;
+          font-weight: bolder
+        }
+      }
+  </style>
+  <div class="jumbotron text-center">
+    <div class="hero-image">
+      <div class="hero-text">
+        <h1>Welcome to <span id="retro_text"> The Retro Affair</span></h1>
+        <h3>The vintage foods of India.</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="pb-3 h5">Menu</div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 mb-1">
+
+        {% for product in products %}
+
+        <div class="col">
+          <div class="card shadow-sm">
+            <img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}">
+            <div class="card-body">
+              <p class="card-text">
+                <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+              </p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Best Seller</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+  <!-- About Us -->
+  <div class="container" id="aboutUs">
+    <div class="pb-3 h5">About Us</div>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+            Our Goals
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Our goal is to be the most trusted and largest vegetarian family restaurant by delivering delight to our
+            guests through our dedicated team members. We want to be the preferred family restaurant for our customers,
+            offering fast, fresh and tasty food in clean, safe, hygienic surroundings and achieve highest standards of
+            guest delight. For the employees, we want to be the employer of choice, to grow profitably through efficient
+            means and maximization of revenues while conducting ourselves with social responsibility.
+
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Our History
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Nothing helps a person understand a culture better than exploring the region’s street food. In India, street
+            food industry protects traditional recipes that run through ancestry lines. Street food provides a
+            convenient diet for many people in developing countries like India . Food stalls are often owned and handled
+            by a family.<br><br>
+
+            We are one such family situated in Delhi, who wanted to pass on the taste of our ancestral recipes to
+            various people. Our parents started a small roadside dhaba named “Reet” in 1960. They worked in this dhaba
+            for 40 years to ear bread and butter for the family. His son Reet, having left his education midway, decided
+            to take over the dhaba to continue earning for his family. In the year 2004-05, Gurmeet first changed the
+            name of the dhaba from “Reet” to “The Retro Affair” to stay in line with the changing times.<br><br>
+
+            Accepting changes and by making the necessary changes with time, though we cannot compete with the marketing
+            strategies of big delivery companies, we are sure of the word-of-mouth marketing of our restaurant through
+            our esteemed customers. With love of our customers and blessings of almighty, “The Retro Affair” has already
+            won the hearts of the city.<br><br>
+
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Sanitization Measures
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+          data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            We follow all Food Safety Standards and are taking all necessary precautions to fight against viruses like
+            Covid. We are rigorously following the hourly hand-wash process for hygiene. In-house training programmes
+            are regularly conducted for staff. All our food items are checked four times a day for appropriate
+            temperatures. Also our employees are being educated about this pandemic and are told to wear masks and
+            maintain distance.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Carousel -->
+
+  <div id="reviews" class="carousel slide my-5" data-bs-ride="carousel" style="margin-top: 5%;">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#reviews" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#reviews" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#reviews" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+          preserveAspectRatio="xMidYMid slice" focusable="false">
+          <rect width="100%" height="100%" fill="#777" /></svg>
+
+        <div class="container">
+          <div class="carousel-caption">
+            <p class="review-content">This is a legendary place for its delicious Pav Bhaji.
+              Retro Affair has a simple restaurant feel where you can have awesome food.</p>
+            <p class="review-writer">Aman Gulati</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+          preserveAspectRatio="xMidYMid slice" focusable="false">
+          <rect width="100%" height="100%" fill="#777" /></svg>
+
+        <div class="container">
+          <div class="carousel-caption">
+            <p class="review-content">This place is my every Sunday breakfast place. The bhatura&#39;s are crisp and the chhole have just the
+              right amount of spices.</p>
+            <p class="review-writer">Varun Dhawan</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+          preserveAspectRatio="xMidYMid slice" focusable="false">
+          <rect width="100%" height="100%" fill="#777" /></svg>
+
+        <div class="container">
+          <div class="carousel-caption">
+            <p class="review-content">After our coaching classes, this place is a must stop for me and my whole gang. Eat anything
+              and you won’t be disappointed.</p>
+            <p class="review-writer"> Shweta Sharma</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#reviews" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#reviews" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Smooth scroll to top -->
+
+  <button onclick='window.scrollTo({top: 0, behavior: "smooth"});' class="btn" id="#toTopBtn"
+    style="position: fixed; bottom: 20px; right: 30px; z-index: 98; padding: 21px; background-color: hsla(5, 76%, 62%, .8); height: min(50px, 5%); width: min(50px, 5%); justify-content: center;">
+    <p style="color: black; position: fixed; bottom: 16px; right: 42px;">Top</p>
+  </button>
+</main>
+
+
+  <!-- Footer -->
+
+  <div class="container-fluid mw-100" style="margin-bottom: 0px;">
+    <footer
+        style="background-color: #deded5; position: absolute; margin-bottom: -150px; margin-top: 1%; width=100%; margin-left: 0%; margin-right: 0%;">
+        <div class="container-fluid p-4 mw-100">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <h5 class="mb-3" style="letter-spacing: 2px; color: #818963; font-weight: 900;">Thank You!</h5>
+                    <p>
+                        Our restaurant wouldn't be alive without our loving customers. We always strive to provide our
+                        customers
+                        with
+                        a good experience, thanks to our staff! We hope you have a good experience at the Retro Affair!
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-3" style="letter-spacing: 2px; color: #818963; font-weight: 900;" id="contactus">Contact Us!</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-1">
+                            <span style="color: #4f4f4f;">Phone Number: <strong>+91 9123412345</strong></span>
+                        </li>
+                        <li class="mb-1">
+                            <span style="color: #4f4f4f;">Email Address: <strong>theretroaffair@gmail.com</strong></span>
+                        </li>
+                        <li class="mb-4">
+                            <span style="color: #4f4f4f;">Location: <strong>Malviya Road, Green Park, New Delhi</strong></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-1" style="letter-spacing: 2px; color: #818963; font-weight: 900;">opening hours</h5>
+                    <table class="table" style="color: #4f4f4f; border-color: #666;">
+                        <tbody>
+                            <tr>
+                                <td>Mon - Fri:</td>
+                                <td>8am - 11pm</td>
+                            </tr>
+                            <tr>
+                                <td>Sat - Sun:</td>
+                                <td>8am - 12am</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}
